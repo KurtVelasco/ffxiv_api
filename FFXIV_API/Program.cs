@@ -34,12 +34,26 @@ namespace FFXIV_API
             // Create a new WebClient instance
             WebClient client = new WebClient();
             // Download the API data as a string
-            string data = client.DownloadString(url);
+            string data = " ";
+            try
+            {
+                data = client.DownloadString(url);
+            }
+            catch(Exception error)
+            {
+                Console.WriteLine(error);
+            }
             dynamic Item = JsonConvert.DeserializeObject(data);
             string Name_Object = "";
             int count = Enumerable.Count<dynamic>(Item.Results);
+            if (count <= 0)
+            {
+                Console.WriteLine("No Results");
+                Console.ReadKey();
+            }
             for (int x = 0; x < count; x++)
             {
+             
                 Name_Object = Item.Results[x].Name;
                 Console.WriteLine(Name_Object);
             }
